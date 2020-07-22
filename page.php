@@ -1,6 +1,5 @@
-<?php 
-// single.php is used for specific a single page only, so we can style and do whatever we want here.
-?>
+<!-- single.php is used for specific a single page only, so we can style and do whatever we want here.  -->
+<?php get_header(); ?>
 
 
 <?php 
@@ -15,3 +14,5 @@
         <?php
     }
 ?>
+
+<?php get_footer(); ?>
