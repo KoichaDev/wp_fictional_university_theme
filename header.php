@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- language_attributes is to give html tag element which language is displayed on the website -->
+<html <?php language_attributes(); ?>> 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Gives WP control for the head section, such as installing multiple plugins -->
     <?php wp_head(); ?>
-    <title></title>
 </head>
-<body>
+<!-- body_class() gives us dynamically where WP generates class for the body element. We can use it for styling -->
+<body <?php body_class(); ?>>
 
     <header class="site-header">
     <div class="container">
