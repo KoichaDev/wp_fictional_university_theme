@@ -12,6 +12,16 @@
         // get_stylesheet_uriRetrieves the URI of current theme stylesheet. (WordPress Snippets)
         wp_enqueue_style('kho_university_styles', get_stylesheet_uri());
     } 
+
+    function kho_university_features() {
+        // This is to enable website title tag + Site identity based on the page user visits on WP
+        add_theme_support('title-tag');
+    }
+
+    // add_action() is used for WP hooks 
+    add_action('wp_enqueue_scripts', 'kho_university_files'); 
+
+
+    add_action('after_setup_theme', 'kho_university_features');
 ?>
-<!-- add_action() is used for WP hooks -->
-<?php add_action('wp_enqueue_scripts', 'kho_university_files'); ?>
+
