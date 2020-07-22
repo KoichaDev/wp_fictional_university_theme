@@ -26,14 +26,31 @@
             </p>
             <?php endif; ?>
         </div>
-            
-            <!-- <div class="page-links">
-            <h2 class="page-links__title"><a href="#">About Us</a></h2>
-            <ul class="min-list">
-                <li class="current_page_item"><a href="#">Our History</a></li>
-                <li><a href="#">Our Goals</a></li>
-            </ul>
-            </div> -->
+            <?php 
+            $testArr = get_pages([ // If no current page has children, will just return NULL or false
+                'child_of' => get_the_ID(), // Checking if the current page has children
+            ]);
+            if($theParent || $testArr) : ?>
+        <div class="page-links">
+        <h2 class="page-links__title"><a href="<?php echo get_permalink($theParent); ?>"><?php echo get_the_title($theParent); ?></a></h2>
+        <ul class="min-list">
+            <?php 
+            if($theParent) {
+                $findChildrenOf = $theParent;
+            } else {
+                $findChildrenOf = get_the_ID();
+            }
+            // Very similiar to get_pages(). Difference is the function below will handle the output vs get_pages() only returns
+            wp_list_pages([
+                'title_li' => NULL, // This removes the title, since we don't want the title of our li to anything
+                'child_of' => $findChildrenOf,
+                'sort_column' => 'menu_order' // This will make user to choose manually how to order to display on the row from Page attribute on the editor
+            ]);  
+            ?>
+        </ul>
+        </div>
+            <?php endif; ?>
+
 
             <div class="generic-content"><?php the_content(); ?></div>
         </div>
