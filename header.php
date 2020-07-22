@@ -17,13 +17,21 @@
       <i class="site-header__menu-trigger fa fa-bars" aria-hidden="true"></i>
       <div class="site-header__menu group">
         <nav class="main-navigation">
+          <?php 
+            // This will be used for display location 
+            wp_nav_menu([
+              'theme_location' => 'header-menu-location' 
+              ]) 
+          ?>
+
+          <!-- This is hard coded. The code above is dynamically based on how users want to arrange the nav menu
           <ul class="min-list group">
             <li><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
             <li><a href="#">Programs</a></li>
             <li><a href="#">Events</a></li>
             <li><a href="#">Campuses</a></li>
             <li><a href="#">Blog</a></li>
-          </ul>
+          </ul> -->
         </nav>
         <div class="site-header__util">
           <a href="#" class="btn btn--small btn--orange float-left push-right">Login</a>

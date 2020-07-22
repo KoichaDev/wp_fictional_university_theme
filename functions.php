@@ -16,11 +16,16 @@
     function kho_university_features() {
         // This is to enable website title tag + Site identity based on the page user visits on WP
         add_theme_support('title-tag');
+
+        // This is to activate our theme, so the user can use the appearance -> menu navigation of the WP dashboard
+        register_nav_menu('header-menu-location', 'Header Menu Location'); // 2nd param: optional name for whatever you want
+        register_nav_menu('footer-menu-location-one', 'Footer Menu Location One'); // 2nd param: optional name for whatever you want
+        register_nav_menu('footer-menu-location-two', 'Footer Menu Location two'); // 2nd param: optional name for whatever you want
+        
     }
 
-    // add_action() is used for WP hooks 
+    // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
-
 
     add_action('after_setup_theme', 'kho_university_features');
 ?>
