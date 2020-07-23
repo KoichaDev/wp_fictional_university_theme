@@ -18,8 +18,8 @@
             wp_enqueue_script('kho_bundled_university_script', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
         } else { // This will build the production ready for us if we wish to release to the global live 
             wp_enqueue_script('kho_university_vendors_js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js') , NULL, '1.0', true);            
-            wp_enqueue_script('kho_university_script', get_theme_file_uri('/bundled-assets/scripts.478aecf4b3f4c8999b12.js') , NULL, '1.0', true);            
-            wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.478aecf4b3f4c8999b12.css'));
+            wp_enqueue_script('kho_university_script', get_theme_file_uri('/bundled-assets/scripts.1b2bda0ef30dedd299a9.js') , NULL, '1.0', true);            
+            wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.1b2bda0ef30dedd299a9.css'));
         }
 
     } 
@@ -35,9 +35,12 @@
         
     }
 
+   
+
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
 
     add_action('after_setup_theme', 'kho_university_features');
+
 ?>
 
