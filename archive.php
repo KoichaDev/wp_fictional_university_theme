@@ -4,16 +4,23 @@
   <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>);"></div>
     <div class="page-banner__content container container--narrow">
     <h1 class="page-banner__title">
-      <?php if(is_category()) : ?>
+      <?php the_archive_title(); ?>
+
+      <?php 
+        // The logic code can be used below, but it will be very hassle when it comes to date formatting as well 
+        // Using the code above will give us is_category() + is_author() + date format. Much cleaner!
+      ?>
+      <!-- <?php if(is_category()) : ?>
         <?php single_cat_title(); ?>
       <?php endif; ?>
 
       <?php if(is_author()) : ?>
         Posts By <?php the_author(); ?>
-      <?php endif; ?>
+      <?php endif; ?> -->
     </h1>
     <div class="page-banner__intro">
-      <p>Keep up with our latest news!</p>
+      <!-- this function will give the author biography description, category description, etc. -->
+      <p><?php the_archive_description(); ?></p>
     </div>
   </div>  
 </div>
