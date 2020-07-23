@@ -113,7 +113,7 @@ if (currentTask == "build" || currentTask == "buildWatch") {
   cssConfig.use.unshift(MiniCssExtractPlugin.loader)
   postCSSPlugins.push(require("cssnano"))
   config.output = {
-    publicPath: "/wp-content/themes/fictional-university-theme/bundled-assets/",
+    publicPath: "/wp-content/themes/wp_fictional_university_theme/bundled-assets/",
     filename: "[name].[chunkhash].js",
     chunkFilename: "[name].[chunkhash].js",
     path: path.resolve(__dirname, "bundled-assets")
