@@ -18,7 +18,7 @@
         <?php 
           $today = date('Ymd');
           $homePageEvents = new WP_Query([
-            'posts_per_page' => -1,
+            'posts_per_page' => 2, // if using the value -1, then it will show all posts
             'post_type' => 'event',
             'meta_key' => 'event_date',
             'orderby' => 'meta_value_num', // WP meta is all of the extra or custom additional data associated with the post
