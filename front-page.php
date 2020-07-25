@@ -16,9 +16,21 @@
         <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
         
         <?php 
+          $today = date('Ymd');
           $homePageEvents = new WP_Query([
-            'posts_per_page' => 2,
-            'post_type' => 'event'
+            'posts_per_page' => -1,
+            'post_type' => 'event',
+            'meta_key' => 'event_date',
+            'orderby' => 'meta_value_num', // WP meta is all of the extra or custom additional data associated with the post
+            'order' => 'ASC',
+            'meta_query' => [ // This will allow us to custom the date event 
+              [ // this array will give condition if older event post from not today, then it will not display on the GUI
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'type' => 'numeric' // this will compare the datatype, which is numeric
+              ]
+            ]
           ]);
 
           while($homePageEvents -> have_posts()) {
