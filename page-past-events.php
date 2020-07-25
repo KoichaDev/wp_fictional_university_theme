@@ -3,9 +3,9 @@
 <div class="page-banner">
   <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>);"></div>
     <div class="page-banner__content container container--narrow">
-    <h1 class="page-banner__title">All Events</h1>
+    <h1 class="page-banner__title">Past Events</h1>
     <div class="page-banner__intro">
-      <p>See what is going on in our world</p>
+      <p>A recap of our past events</p>
     </div>
   </div>  
 </div>
@@ -13,8 +13,26 @@
 <div class="container container--narrow page-section">  
 <?php 
   
-  while(have_posts()) {
-    the_post();
+  $today = date('Ymd');
+  $pastEvents = new WP_Query([
+    'paged' => get_query_var('paged', 1), // This function can be used to get all sorts of information about the current URL
+    // 'posts_per_page' => 1,
+    'post_type' => 'event',
+    'meta_key' => 'event_date',
+    'orderby' => 'meta_value_num', // WP meta is all of the extra or custom additional data associated with the post
+    'order' => 'ASC',
+    'meta_query' => [ // This will allow us to custom the date event 
+      [ // this array will give condition if older event post from not today, then it will not display on the GUI
+        'key' => 'event_date',
+        'compare' => '<=',
+        'value' => $today,
+        'type' => 'numeric' // this will compare the datatype, which is numeric
+      ]
+    ]
+  ]);
+
+  while($pastEvents -> have_posts()) {
+    $pastEvents -> the_post();
     ?>
      <div class="event-summary">
        <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
@@ -38,12 +56,10 @@
     </div>
     <?php
   }
-  echo paginate_links();
+  echo paginate_links([
+    'total' => $pastEvents -> max_num_pages // This will give us specific past event pagination
+  ]);
 ?>
-<hr class="section-break"> 
-<p>Looking for a recap of past events? 
-  <a href="<?php echo site_url('/past-events') ?>">Check out our past events archieve.</a>
-</p>
 </div>
 
 <?php get_footer(); ?>
