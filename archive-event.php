@@ -12,13 +12,20 @@
 
 <div class="container container--narrow page-section">  
 <?php 
+  
   while(have_posts()) {
     the_post();
     ?>
      <div class="event-summary">
-        <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-        <span class="event-summary__month"><?php the_time('M'); ?></span>
-        <span class="event-summary__day"><?php the_time('d'); ?></span>  
+       <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
+          <span class="event-summary__month">
+          <?php
+            // the_field() is used in the context of the Advanced Custom Fields plugin 
+            $eventDate = new DateTime(get_field('event_date'));
+            echo $eventDate -> format('M'); 
+            ?>
+            </span>
+          <span class="event-summary__day"><?php echo $eventDate -> format('d');  ?></span>  
         </a>
         <div class="event-summary__content">
         <h5 class="event-summary__title headline headline--tiny">

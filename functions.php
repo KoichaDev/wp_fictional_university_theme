@@ -31,8 +31,27 @@
         // This is to activate our theme, so the user can use the appearance -> menu navigation of the WP dashboard
         register_nav_menu('header-menu-location', 'Header Menu Location'); // 2nd param: optional name for whatever you want
         register_nav_menu('footer-menu-location-one', 'Footer Menu Location One'); // 2nd param: optional name for whatever you want
-        register_nav_menu('footer-menu-location-two', 'Footer Menu Location two'); // 2nd param: optional name for whatever you want
-        
+        register_nav_menu('footer-menu-location-two', 'Footer Menu Location two'); // 2nd param: optional name for whatever you want   
+    }
+
+    function kho_university_adjust_queries($query) {
+        $today = date('Ymd');
+        // Checking if the user is not admin + the ur l is e.g. localhost/wordpress/event
+        // is_main_query() evaluate only TRUE if the query in question is the default URL based query
+        if(!is_admin() && is_post_type_archive('event') && $query -> is_main_query()) {
+            // this query will make sure that we want to sort our events to ascending
+            $query -> set('meta_key', 'event_date');
+            $query -> set('orderby', 'meta_value_num');
+            $query -> set('order', 'asc');
+            $query -> set('meta_query', [ // This will allow us to custom the date event 
+              [ // this array will give condition if older event post from not today, then it will not display on the GUI
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'type' => 'numeric' // this will compare the datatype, which is numeric
+              ]
+            ]);
+        }
     }
 
    
@@ -41,6 +60,9 @@
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
 
     add_action('after_setup_theme', 'kho_university_features');
+
+    // hooks to manipulate default URL based queries
+    add_action('pre_get_posts', 'kho_university_adjust_queries');
 
 ?>
 
