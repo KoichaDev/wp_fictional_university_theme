@@ -35,7 +35,16 @@
     }
 
     function kho_university_adjust_queries($query) {
+
         $today = date('Ymd');
+
+        if(!is_admin() && is_post_type_archive('program') && is_main_query()) {
+            $query -> set('orderby', 'title');
+            $query -> set('orderby', 'ASC');
+            $query -> set('posts_per_page', -1); // -1 will list everything 
+
+        }
+
         // Checking if the user is not admin + the ur l is e.g. localhost/wordpress/event
         // is_main_query() evaluate only TRUE if the query in question is the default URL based query
         if(!is_admin() && is_post_type_archive('event') && $query -> is_main_query()) {
