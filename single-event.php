@@ -47,9 +47,9 @@
                             <?php echo get_the_title($program); ?>
                             </a>
                             </li>
-                    </ul>
                         <?php endforeach; 
                     }?>
+                    </ul>
             </div>
         </div>
         <?php
