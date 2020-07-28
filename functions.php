@@ -32,7 +32,7 @@
         // 1st param: name of the image
         // 2nd param: width
         // 3rd param: height
-        // 4th param: crops the image or not
+        // 4th param: crops the image true/false, or giving an array for cropping image position, e.g. ['top', 'left]
         add_image_size('kho_professor_landscape', 400, 260, true);
         add_image_size('kho_professor_portrait', 480, 650, true);
 
