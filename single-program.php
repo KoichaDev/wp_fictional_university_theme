@@ -33,7 +33,40 @@
             <div class="generic-content">
                 <p><?php the_content(); ?></p>
 
-                <?php 
+              <?php 
+
+              $relatedProfessors = new WP_Query([
+            'posts_per_page' => -1, // if using the value -1, then it will show all posts
+            'post_type' => 'professor',
+            'orderby' => 'title', // This will be used as professors title name
+            'order' => 'ASC',
+            'meta_query' => [ // This will allow us to custom/filter the date event 
+              [
+                  'key' => 'related_programs',
+                  'compare' => 'LIKE',
+                  'value' => '"' . get_the_id() . '"' // Writing this way will serialize with our id of our page, e.g. program page
+              ]
+            ]
+          ]);
+
+          // Checking if there are any upcoming events here
+          if($relatedProfessors -> have_posts()) {
+            echo '<hr class="section-break" />';
+          echo '<h2 class="headline headline--medium">' . get_the_title() . ' Professors</h2>';
+          echo '<ul>';
+          while($relatedProfessors -> have_posts()) {
+            $relatedProfessors -> the_post();
+            ?>
+            <li>
+              <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+            </li>
+            <?php
+            }
+          } wp_reset_postdata(); // This function reset global post data back to default URL based query, e.g. wordpress/programs/biology
+          echo '</ul>';
+
+
+
           $today = date('Ymd');
           $homePageEvents = new WP_Query([
             'posts_per_page' => 2, // if using the value -1, then it will show all posts
@@ -55,6 +88,11 @@
               ]
             ]
           ]);
+
+          // Checking if there are any upcoming events here
+          if($homePageEvents -> have_posts()) {
+            echo '<hr class="section-break" />';
+          echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title() . ' Events</h2>';
 
           while($homePageEvents -> have_posts()) {
             $homePageEvents -> the_post();
@@ -86,7 +124,9 @@
               </div>
             </div>
             <?php
-          } ?>
+            }
+          }
+          ?>
             </div>
         </div>
         <?php
