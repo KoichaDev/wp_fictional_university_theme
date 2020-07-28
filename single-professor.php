@@ -19,7 +19,16 @@
         </div>
         <div class="container container--narrow page-section">
             <div class="generic-content">
-                <p><?php the_content(); ?></p>
+                <div class="row group">
+                    <div class="one-third">
+                        <?php the_post_thumbnail(); ?>
+                    </div>
+
+                    <div class="two-thirds">
+                        <?php the_content(); ?>
+                    </div>
+
+                </div>
                 <?php 
                     // get_field() is used for the Advanced Custom Fields. The param. is used of the field name
                     // Use print_r() to check what datatype is stored in the get_field()

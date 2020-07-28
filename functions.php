@@ -27,6 +27,14 @@
     function kho_university_features() {
         // This is to enable website title tag + Site identity based on the page user visits on WP
         add_theme_support('title-tag');
+        // This will add the feature images for the WordPress editor
+        add_theme_support('post-thumbnails');
+        // 1st param: name of the image
+        // 2nd param: width
+        // 3rd param: height
+        // 4th param: crops the image or not
+        add_image_size('kho_professor_landscape', 400, 260, true);
+        add_image_size('kho_professor_portrait', 480, 650, true);
 
         // This is to activate our theme, so the user can use the appearance -> menu navigation of the WP dashboard
         register_nav_menu('header-menu-location', 'Header Menu Location'); // 2nd param: optional name for whatever you want
@@ -62,8 +70,6 @@
             ]);
         }
     }
-
-   
 
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
