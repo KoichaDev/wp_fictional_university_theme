@@ -32,10 +32,28 @@
             </div>
             <div class="generic-content">
                 <p><?php the_content(); ?></p>
+                <?php 
+                    // get_field() is used for the Advanced Custom Fields. The param. is used of the field name
+                    // Use print_r() to check what datatype is stored in the get_field()
+                    $relatedPrograms = get_field('related_programs');
+                    
+                    if($relatedPrograms) {
+                        echo '<ul class="link-list min-list">';
+                        echo '<hr class="section-break" />';
+                        echo '<h2 class="headline headline--medium">Related Program(s)</h2>';
+                        foreach ($relatedPrograms as $program) : ?>
+                            <li>
+                            <a href="<?php echo get_the_permalink($program); ?>">
+                            <?php echo get_the_title($program); ?>
+                            </a>
+                            </li>
+                    </ul>
+                        <?php endforeach; 
+                    }?>
             </div>
         </div>
         <?php
     }
 ?>
 
-<?php get_footer(); ?>
+<?php get_footer(); ?> 
