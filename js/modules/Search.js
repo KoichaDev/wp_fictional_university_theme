@@ -60,14 +60,20 @@ class Search {
                 this.isSpinnerVisible = false;
             }
 
-            this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
+            this.typingtimer = setTimeout(this.getResults().bind(this), 2000);
         }
         this.previousValue = this.searchField.value;
     }
 
-    getResults() {
-        this.resultDiv.textContent = 'Image real world';
-        this.isSpinnerVisible = false;
+    async getResults() {
+        try {
+            const res = await fetch(`http://localhost/wordpress/wp-json/wp/v2/posts?search=${this.searchField.value}`);
+            const data = await res.json();
+            console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
 }
