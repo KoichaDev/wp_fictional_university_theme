@@ -11,9 +11,9 @@ class Search {
         this.events();
         this.isOverlayOpen = false; // We use this in context with keydown, to flag and reduce cost of the DOM CPU resource 
         this.isSpinnerVisible = false;
+        this.previousValue;
         this.typingtimer;
 
-        console.log(this.spinner);
     }
 
     // 2. Event Listener
@@ -23,7 +23,7 @@ class Search {
         // We use keydown instead of keyup. Keyup have to make sure user let go of the key to trigger the event, 
         // so keydown is more is better UX. It always guarantee the s-key will always work
         document.addEventListener('keydown', this.keyPressDispatcher.bind(this));
-        this.searchField.addEventListener('keydown', this.typingLogic.bind(this));
+        this.searchField.addEventListener('keyup', this.typingLogic.bind(this));
     }
 
     // 3. Methods trigger for the Event Listener
@@ -45,15 +45,24 @@ class Search {
     }
 
     typingLogic() {
-        // This will reset our setTimeout until the search field has completely stopped
-        // Then it will trigger the setTimeout()
-        clearTimeout(this.typingtimer);
-        if (!this.isSpinnerVisible) {
-            this.spinner.classList.add('spinner-loader');
-            this.isSpinnerVisible = true;
+        if (this.searchField.value !== this.previousValue) {
+            // This will reset our setTimeout until the search field has completely stopped
+            // Then it will trigger the setTimeout()
+            clearTimeout(this.typingtimer);
 
+            if (this.searchField.value) {
+                if (!this.isSpinnerVisible) {
+                    this.spinner.classList.add('spinner-loader');
+                    this.isSpinnerVisible = true;
+                }
+            } else {
+                this.resultDiv.textContent = '';
+                this.isSpinnerVisible = false;
+            }
+
+            this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
         }
-        this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
+        this.previousValue = this.searchField.value;
     }
 
     getResults() {
