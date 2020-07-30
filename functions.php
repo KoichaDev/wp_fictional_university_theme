@@ -107,6 +107,12 @@
         }
     }
 
+    function kho_university_map($api) {
+        $api['key'] = 'AIzaSyBGck_f85GPwhUw2tPan5h8k6_vKqH0NNQ'; 
+        return $api;
+    }
+
+
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
 
@@ -114,6 +120,10 @@
 
     // hooks to manipulate default URL based queries
     add_action('pre_get_posts', 'kho_university_adjust_queries');
+
+    // This is the hooks for Advanced Custom Fields
+    add_filter('acf/fields/google_map/api', 'kho_university_map');
+
 
 ?>
 
