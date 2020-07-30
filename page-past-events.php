@@ -29,8 +29,9 @@
 
   while($pastEvents -> have_posts()) {
     $pastEvents -> the_post();
-    ?>
-     <div class="event-summary">
+    get_template_part('template-parts/content-event.php');
+  ?>
+  <div class="event-summary">
        <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
           <span class="event-summary__month">
           <?php
@@ -49,8 +50,8 @@
         <?php echo wp_trim_words(get_the_content(), 18) ?>
         <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
         </div>
-    </div>
-    <?php
+    </div> 
+  <?php
   }
   echo paginate_links([
     'total' => $pastEvents -> max_num_pages // This will give us specific past event pagination
