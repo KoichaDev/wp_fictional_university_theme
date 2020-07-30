@@ -62,6 +62,12 @@
         <i class="fa fa-window-close  search-overlay__close" aria-hidden="true"></i>
       </div>
     </div>
+
+    <div class="container">
+      <div class="search-overlay__results">
+        <div data-spinner-loader></div>
+      </div>
+    </div>
   </div>
 
 <!-- WP can use this for all sorts of things like loading JavaScript Files -->

@@ -1,6 +1,8 @@
 class Search {
     // 1. Describe and create/initiate our object
     constructor() {
+        this.resultDiv = document.querySelector('.search-overlay__results');
+        this.spinner = document.querySelector('[data-spinner-loader]');
         this.openButton = document.querySelector('.js-search-trigger');
         this.closeButton = document.querySelector('.search-overlay__close');
         this.searchOverlay = document.querySelector('.search-overlay');
@@ -8,7 +10,10 @@ class Search {
         this.searchField = document.querySelector('#search-term');
         this.events();
         this.isOverlayOpen = false; // We use this in context with keydown, to flag and reduce cost of the DOM CPU resource 
+        this.isSpinnerVisible = false;
         this.typingtimer;
+
+        console.log(this.spinner);
     }
 
     // 2. Event Listener
@@ -43,8 +48,19 @@ class Search {
         // This will reset our setTimeout until the search field has completely stopped
         // Then it will trigger the setTimeout()
         clearTimeout(this.typingtimer);
-        this.typingtimer = setTimeout(() => console.log('ssisi'), 2000)
+        if (!this.isSpinnerVisible) {
+            this.spinner.classList.add('spinner-loader');
+            this.isSpinnerVisible = true;
+
+        }
+        this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
     }
+
+    getResults() {
+        this.resultDiv.textContent = 'Image real world';
+        this.isSpinnerVisible = false;
+    }
+
 }
 
 export default Search;
