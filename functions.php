@@ -1,6 +1,40 @@
 <?php 
 // functions.php is like having a conversation with the wordpress system itself
 
+    // Using this argument $args = NULL will give us optional, therefore will not cause error on the site 
+    // if there are not arguments required on some pages 
+    function kho_page_banner($args = NULL) {
+        if(!$args['title']) {
+            $args['title'] = get_the_title();
+        }
+
+        if(!$args['subtitle']) {
+            // get_fied() is used for the Advanced Custom Fields
+            $args['subtitle'] = get_field('page_banner_subtitle');
+        }
+
+        if(!$args['photo']) {
+            // checking if the image has been uploaded Advanced Custom Fields
+            if(get_field('page_banner_background_image')) {
+                $args['photo'] = get_field('page_banner_background_image')['sizes']['kho_page_banner'];
+            } else {
+                $args['photo'] = get_theme_file_uri('/images/ocean.jpg');
+            }
+        }
+
+        ?>
+        <div class="page-banner">
+            <div class="page-banner__bg-image" style="background-image: url(<?php echo $args['photo']; ?>;"></div>
+            <div class="page-banner__content container container--narrow">
+            <h1 class="page-banner__title"><?php echo $args['title']; ?></h1>
+            <div class="page-banner__intro">
+                <p><?php echo $args['subtitle']; ?></p>
+            </div>
+            </div>  
+        </div>    
+        <?php
+    }
+
     function kho_university_files() {
          // Load JavaScript File
         // 4th param: Do you want to load this file right before the closing body tag?
@@ -35,6 +69,8 @@
         // 4th param: crops the image true/false, or giving an array for cropping image position, e.g. ['top', 'left]
         add_image_size('kho_professor_landscape', 400, 260, true);
         add_image_size('kho_professor_portrait', 480, 650, true);
+        // This will be used for page background related for example wordpress/professor/dr-mjau
+        add_image_size('kho_page_banner', 1500, 350, true);
 
         // This is to activate our theme, so the user can use the appearance -> menu navigation of the WP dashboard
         register_nav_menu('header-menu-location', 'Header Menu Location'); // 2nd param: optional name for whatever you want
