@@ -5,8 +5,10 @@ class Search {
         this.closeButton = document.querySelector('.search-overlay__close');
         this.searchOverlay = document.querySelector('.search-overlay');
         this.body = document.querySelector('body');
+        this.searchField = document.querySelector('#search-term');
         this.events();
         this.isOverlayOpen = false; // We use this in context with keydown, to flag and reduce cost of the DOM CPU resource 
+        this.typingtimer;
     }
 
     // 2. Event Listener
@@ -16,6 +18,7 @@ class Search {
         // We use keydown instead of keyup. Keyup have to make sure user let go of the key to trigger the event, 
         // so keydown is more is better UX. It always guarantee the s-key will always work
         document.addEventListener('keydown', this.keyPressDispatcher.bind(this));
+        this.searchField.addEventListener('keydown', this.typingLogic.bind(this));
     }
 
     // 3. Methods trigger for the Event Listener
@@ -34,6 +37,13 @@ class Search {
     keyPressDispatcher(e) {
         e.keyCode === 83 && !this.isOverlayOpen && this.openOverlay();
         e.keyCode === 27 && this.isOverlayOpen && this.closeOverlay();
+    }
+
+    typingLogic() {
+        // This will reset our setTimeout until the search field has completely stopped
+        // Then it will trigger the setTimeout()
+        clearTimeout(this.typingtimer);
+        this.typingtimer = setTimeout(() => console.log('ssisi'), 2000)
     }
 }
 
