@@ -50,6 +50,20 @@
     </div>
   </footer>
 
+  <div class="search-overlay">
+    <div class="search-overlay__top">
+      <div class="container">
+       <!-- 
+          aria-hidden will used for someone who doesn't have good vision. If someone is visiting the website
+          This element will not try to read loud to the visitor
+        -->
+        <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+        <input type="text" id="search-term" class="search-term" placeholder="What are you looking for?">
+        <i class="fa fa-window-close  search-overlay__close" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+
 <!-- WP can use this for all sorts of things like loading JavaScript Files -->
 <?php wp_footer(); ?>
 </body>
