@@ -67,7 +67,7 @@ class Search {
 
     async getResults() {
         try {
-            const res = await fetch(`${window.location.href}wp-json/wp/v2/posts?search=${this.searchField.value}`);
+            const res = await fetch(kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`);
             const posts = await res.json();
 
             if (posts) this.spinner.classList.remove('spinner-loader');
