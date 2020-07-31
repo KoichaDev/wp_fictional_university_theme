@@ -31,6 +31,11 @@ class Search {
     openOverlay() {
         this.searchOverlay.classList.add('search-overlay--active');
         this.body.classList.add('body-no-scroll');
+        // This will reset the searchField value if the user closing the overlay
+        this.searchField.value = '';
+        // The searchfield will be automatically autofocus and user can type on the searchfield right away
+        // reason it's 301 ms is due to the CSS animation that takes 300 ms to load up. 301 ms is a safe-guard
+        setTimeout(() => this.searchField.focus(), 301);
         this.isOverlayOpen = true;
     }
 
@@ -54,7 +59,7 @@ class Search {
                     this.spinner.classList.add('spinner-loader');
                     this.isSpinnerVisible = true;
                 }
-                this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
+                this.typingtimer = setTimeout(this.getResults.bind(this), 750);
 
             } else {
                 this.ul.innerHTML = '';
@@ -100,7 +105,6 @@ class Search {
             console.log(err);
         }
     }
-
 }
 
 export default Search;
