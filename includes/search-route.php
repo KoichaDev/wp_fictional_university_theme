@@ -12,8 +12,26 @@ function kho_university_register_search() {
     ]);
 }
 
+// This function will give us what we want for JSON output
 function universitySearchResults() {
-    return 'Congratulations! You created a route!';
+    $professors = new WP_Query([
+        'post_type' => 'professor'
+    ]);
+
+    $professorResults = [];
+
+    while($professors -> have_posts()) {
+        $professors -> the_post();
+        // 1st param: Which array we want to push to
+        // 2nd param: Which array we want to add on 
+        array_push($professorResults, [
+            'title' => get_the_title(),
+            'permalink' => get_the_permalink(),
+            
+        ]); 
+    }
+
+    return $professorResults;
 } 
 
 add_action('rest_api_init', 'kho_university_register_search');
