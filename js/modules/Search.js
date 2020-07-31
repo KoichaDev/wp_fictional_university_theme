@@ -87,13 +87,13 @@ class Search {
                     if (post.length) {
                         post.map(post => {
                             if (post) this.isSpinnerVisible = false;
-                            const { title, link } = post;
-
+                            const { author_name, title, link, type } = post;
+                            console.log(post);
                             const li = document.createElement('li');
                             const a = document.createElement('a');
 
                             a.setAttribute('href', link);
-                            a.textContent = title.rendered;
+                            a.textContent = `${title.rendered}  ${type === 'post' ? `by ${author_name}` : ''} `;
 
                             this.resultDiv.appendChild(this.ul);
                             this.ul.appendChild(li);

@@ -118,6 +118,17 @@
         return $api;
     }
 
+    function kho_university_custom_restAPI() {
+        // Registers a new field on an existing WordPress object type.
+        // 1st param: post type we want to customize
+        // 2nd param: name the new field of object key-value
+        // 3rd param: an array describes how we want to manage this field
+        register_rest_field('post', 'author_name', [
+            'get_callback' => function() {return get_the_author();}, // returns the author name from the default WP function already created
+        ]);
+
+    }
+
 
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
@@ -130,6 +141,7 @@
     // This is the hooks for Advanced Custom Fields
     add_filter('acf/fields/google_map/api', 'kho_university_map');
 
+    add_action('rest_api_init', 'kho_university_custom_restAPI');
 
 ?>
 
