@@ -1,5 +1,7 @@
 <?php 
-// functions.php is like having a conversation with the wordpress system itself
+    // functions.php is like having a conversation with the wordpress system itself
+
+    require get_theme_file_path('/includes/search-route.php');
 
     // Using this argument $args = NULL will give us optional, therefore will not cause error on the site 
     // if there are not arguments required on some pages 
