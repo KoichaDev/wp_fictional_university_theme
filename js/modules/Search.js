@@ -70,41 +70,82 @@ class Search {
         this.previousValue = this.searchField.value;
     }
 
-    async getResults() {
-        try {
-            const res = await fetch(kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`);
-            const posts = await res.json();
+    getResults() {
+        // Async for getting multiple API's
+        Promise.all([
+            kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`,
+            kho_university_data.root_url + `/wp-json/wp/v2/pages?search=${this.searchField.value}`
+        ]).then((response) => {
 
-            if (posts) this.spinner.classList.remove('spinner-loader');
+            response.map(async data => {
+                const res = await fetch(data);
+                const post = await res.json();
 
-            if (this.isSpinnerVisible) {
-                if (posts.length) {
-                    posts.map(post => {
-                        if (post) this.isSpinnerVisible = false;
-                        const { title, link } = post;
+                if (post) this.spinner.classList.remove('spinner-loader');
 
-                        const li = document.createElement('li');
-                        const a = document.createElement('a');
+                if (this.isSpinnerVisible) {
+                    if (post.length) {
+                        post.map(post => {
+                            if (post) this.isSpinnerVisible = false;
+                            const { title, link } = post;
 
-                        a.setAttribute('href', link);
-                        a.textContent = title.rendered;
+                            const li = document.createElement('li');
+                            const a = document.createElement('a');
 
-                        this.resultDiv.appendChild(this.ul);
-                        this.ul.appendChild(li);
-                        li.appendChild(a);
-                    });
-                } else {
-                    this.resultDiv.textContent = '';
-                    const p = document.createElement('p');
-                    p.textContent = 'No Results Found';
-                    this.resultDiv.appendChild(p);
+                            a.setAttribute('href', link);
+                            a.textContent = title.rendered;
+
+                            this.resultDiv.appendChild(this.ul);
+                            this.ul.appendChild(li);
+                            li.appendChild(a);
+                        });
+                    } else {
+                        this.resultDiv.textContent = '';
+                        const p = document.createElement('p');
+                        p.textContent = 'No Results Found';
+                        this.resultDiv.appendChild(p);
+                    }
+                    this.spinner.classList.add('spinner-loader');
                 }
-                this.spinner.classList.add('spinner-loader');
-            }
-        } catch (err) {
-            console.log(err);
-        }
+            });
+        }).catch(err => console.log(err))
     }
+
+    // async getResults() {
+    //     try {
+    //         const res = await fetch(kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`);
+    //         const posts = await res.json();
+
+    //         if (posts) this.spinner.classList.remove('spinner-loader');
+
+    //         if (this.isSpinnerVisible) {
+    //             if (posts.length) {
+    //                 posts.map(post => {
+    //                     if (post) this.isSpinnerVisible = false;
+    //                     const { title, link } = post;
+
+    //                     const li = document.createElement('li');
+    //                     const a = document.createElement('a');
+
+    //                     a.setAttribute('href', link);
+    //                     a.textContent = title.rendered;
+
+    //                     this.resultDiv.appendChild(this.ul);
+    //                     this.ul.appendChild(li);
+    //                     li.appendChild(a);
+    //                 });
+    //             } else {
+    //                 this.resultDiv.textContent = '';
+    //                 const p = document.createElement('p');
+    //                 p.textContent = 'No Results Found';
+    //                 this.resultDiv.appendChild(p);
+    //             }
+    //             this.spinner.classList.add('spinner-loader');
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 }
 
 export default Search;
