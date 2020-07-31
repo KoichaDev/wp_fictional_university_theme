@@ -73,20 +73,28 @@ class Search {
             if (posts) this.spinner.classList.remove('spinner-loader');
 
             if (this.isSpinnerVisible) {
-                posts.map(post => {
-                    if (post) this.isSpinnerVisible = false;
-                    const { title, link } = post;
+                if (posts.length) {
+                    posts.map(post => {
+                        if (post) this.isSpinnerVisible = false;
+                        const { title, link } = post;
 
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
 
-                    a.setAttribute('href', link);
-                    a.textContent = title.rendered;
+                        a.setAttribute('href', link);
+                        a.textContent = title.rendered;
 
-                    this.resultDiv.appendChild(this.ul);
-                    this.ul.appendChild(li);
-                    li.appendChild(a);
-                });
+                        this.resultDiv.appendChild(this.ul);
+                        this.ul.appendChild(li);
+                        li.appendChild(a);
+                    });
+                } else {
+                    this.resultDiv.textContent = '';
+                    const p = document.createElement('p');
+                    p.textContent = 'No Results Found';
+                    this.resultDiv.appendChild(p);
+                }
+                this.spinner.classList.add('spinner-loader');
             }
         } catch (err) {
             console.log(err);
