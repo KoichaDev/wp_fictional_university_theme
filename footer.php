@@ -66,6 +66,7 @@
     <div class="container">
       <div class="search-overlay__results">
         <div data-spinner-loader></div>
+        <ul class="link-list min-list"></ul>
       </div>
     </div>
   </div>

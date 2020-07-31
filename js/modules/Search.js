@@ -6,6 +6,7 @@ class Search {
         this.openButton = document.querySelector('.js-search-trigger');
         this.closeButton = document.querySelector('.search-overlay__close');
         this.searchOverlay = document.querySelector('.search-overlay');
+        this.ul = document.querySelector('.search-overlay__results > ul');
         this.body = document.querySelector('body');
         this.searchField = document.querySelector('#search-term');
         this.events();
@@ -46,34 +47,50 @@ class Search {
 
     typingLogic() {
         if (this.searchField.value !== this.previousValue) {
-            // This will reset our setTimeout until the search field has completely stopped
-            // Then it will trigger the setTimeout()
-            clearTimeout(this.typingtimer);
+            clearTimeout(this.typingTimer);
 
             if (this.searchField.value) {
                 if (!this.isSpinnerVisible) {
                     this.spinner.classList.add('spinner-loader');
                     this.isSpinnerVisible = true;
                 }
+                this.typingtimer = setTimeout(this.getResults.bind(this), 2000);
+
             } else {
-                this.resultDiv.textContent = '';
+                this.ul.innerHTML = '';
                 this.isSpinnerVisible = false;
             }
 
-            this.typingtimer = setTimeout(this.getResults().bind(this), 2000);
         }
         this.previousValue = this.searchField.value;
     }
 
     async getResults() {
         try {
-            const res = await fetch(`http://localhost/wordpress/wp-json/wp/v2/posts?search=${this.searchField.value}`);
-            const data = await res.json();
-            console.log(data);
+            const res = await fetch(`${window.location.href}wp-json/wp/v2/posts?search=${this.searchField.value}`);
+            const posts = await res.json();
+
+            if (posts) this.spinner.classList.remove('spinner-loader');
+
+            if (this.isSpinnerVisible) {
+                posts.map(post => {
+                    if (post) this.isSpinnerVisible = false;
+                    const { title, link } = post;
+
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+
+                    a.setAttribute('href', link);
+                    a.textContent = title.rendered;
+
+                    this.resultDiv.appendChild(this.ul);
+                    this.ul.appendChild(li);
+                    li.appendChild(a);
+                });
+            }
         } catch (err) {
             console.log(err);
         }
-
     }
 
 }
