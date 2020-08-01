@@ -23,7 +23,6 @@ class Search {
 
     // 2. Event Listener
     events() {
-
         this.openButton.addEventListener('click', this.openOverlay.bind(this));
         this.closeButton.addEventListener('click', this.closeOverlay.bind(this));
         // We use keydown instead of keyup. Keyup have to make sure user let go of the key to trigger the event, 
@@ -78,48 +77,44 @@ class Search {
     }
 
     async getResults() {
-        try {
-            const res = await fetch(kho_university_data.root_url + `/wp-json/kho_university/v1/search?term=${this.searchField.value}`);
-            const data = res.json();
-            data.then(results => {
-                if (results) this.spinner.classList.remove('spinner-loader');
+        const res = await fetch(kho_university_data.root_url + `/wp-json/kho_university/v1/search?term=${this.searchField.value}`);
+        const data = await res.json();
+        data.then(results => {
+            if (results) this.spinner.classList.remove('spinner-loader');
 
-                const { campuses, events, general_info, professors, programs } = results;
+            const { campuses, events, general_info, professors, programs } = results;
 
-                if (!results) {
-                    this.resultDiv.textContent = 'No Result found!'
-                } else {
-                    document.querySelector('[data-container-search]').style.display = 'block';
-                    general_info.map(result => {
-                        console.log(result)
-                        this.dataSectionGeneralInfo.innerHTML = `
+            if (!results) {
+                this.resultDiv.textContent = 'No Result found!'
+            } else {
+                document.querySelector('[data-container-search]').style.display = 'block';
+                general_info.map(result => {
+                    console.log(result)
+                    this.dataSectionGeneralInfo.innerHTML = `
                         <li>
                             <a href="${result?.permalink}">
                                 ${result?.title}
                             </a> 
                             ${result?.post_type === 'post' && `by ${result?.author_name}`
-                            }
+                        }
                         </li`;
-                    });
+                });
 
-                    programs.map(result => {
-                        this.dataSectionProgram.innerHTML = `
+                programs.map(result => {
+                    this.dataSectionProgram.innerHTML = `
                         <li>
                             <a href="${result?.permalink}">${result?.title}</a> 
                         </li`;
-                    })
+                })
 
-                }
-                // As soon the user typing on the search field, the spinner will load
-                this.isSpinnerVisible = true;
+            }
+            // As soon the user typing on the search field, the spinner will load
+            this.isSpinnerVisible = true;
 
-            }).catch(err => {
-                this.resultDiv.textContent = err;
-                console.log(err);
-            });
-        } catch (err) {
+        }).catch(err => {
+            this.resultDiv.textContent = err;
             console.log(err);
-        }
+        });
     }
 }
 

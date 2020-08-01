@@ -54,8 +54,8 @@
             wp_enqueue_script('kho_bundled_university_script', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
         } else { // This will build the production ready for us if we wish to release to the global live 
             wp_enqueue_script('kho_university_vendors_js', get_theme_file_uri('/bundled-assets/vendors~scripts.45326db24a2c05c44c86.js') , NULL, '1.0', true);            
-            wp_enqueue_script('kho_bundled_university_script', get_theme_file_uri('/bundled-assets/scripts.07cbcc1cd3a7014902ee.js') , NULL, '1.0', true);            
-            wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.07cbcc1cd3a7014902ee.css'));
+            wp_enqueue_script('kho_bundled_university_script', get_theme_file_uri('/bundled-assets/scripts.c4a3bee08cab40d47d41.js') , NULL, '1.0', true);            
+            wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.c4a3bee08cab40d47d41.css'));
         }
 
         // 1st param: name of the JavaScript file
