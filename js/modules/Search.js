@@ -23,6 +23,7 @@ class Search {
 
     // 2. Event Listener
     events() {
+
         this.openButton.addEventListener('click', this.openOverlay.bind(this));
         this.closeButton.addEventListener('click', this.closeOverlay.bind(this));
         // We use keydown instead of keyup. Keyup have to make sure user let go of the key to trigger the event, 
@@ -32,7 +33,8 @@ class Search {
     }
 
     // 3. Methods trigger for the Event Listener
-    openOverlay() {
+    openOverlay(e) {
+        e.preventDefault();
         this.searchOverlay.classList.add('search-overlay--active');
         this.body.classList.add('body-no-scroll');
         // This will reset the searchField value if the user closing the overlay
@@ -41,6 +43,7 @@ class Search {
         // reason it's 301 ms is due to the CSS animation that takes 300 ms to load up. 301 ms is a safe-guard
         setTimeout(() => this.searchField.focus(), 301);
         this.isOverlayOpen = true;
+        return false;
     }
 
     closeOverlay() {
