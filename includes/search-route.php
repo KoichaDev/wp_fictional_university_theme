@@ -14,25 +14,81 @@ function kho_university_register_search() {
 
 // This function will give us what we want for JSON output
 function universitySearchResults($data) {
-    $professors = new WP_Query([
-        'post_type' => 'professor', // This will give any post types from professor
+    $main_query = new WP_Query([
+        'post_type' => ['post', 'page', 'professor', 'program', 'campus', 'event'], // This will give us multiple Post Types for our query API 
         's' => sanitize_text_field($data['term']), // 's' stands for search, $data is an array and refer to the GET query, e.g. http://localhost/wordpress/wp-json/kho-university/v1/search?term=barksalot
     ]);
+        
+  
+    $results = [
+        'general_info' => [   // This is our empty sub-array for general_info
 
-    $professorResults = [];
+        ],
+        'professors' => [ // This is our empty sub-array for professors
 
-    while($professors -> have_posts()) {
-        $professors -> the_post();
-        // 1st param: Which array we want to push to
-        // 2nd param: Which array we want to add on 
-        array_push($professorResults, [
-            'title' => get_the_title(),
-            'permalink' => get_the_permalink(),
+        ],
+        'programs' => [ // This is our empty sub-array for programs
 
-        ]); 
+        ],
+        'events' => [ // This is our empty sub-array for events
+
+        ],
+        'campuses' => [ // This is our empty sub-array for campuses
+
+        ]
+    ];
+
+    while($main_query -> have_posts()) {
+        $main_query -> the_post();
+        
+        if(get_post_type() === 'post' || get_post_type() === 'page') {
+            // 1st param: Which array we want to push to
+            // 2nd param: Which array we want to add on 
+            array_push($results['general_info'], [
+                'title' => get_the_title(),
+                'permalink' => get_the_permalink(),
+            ]); 
+        }
+
+        if(get_post_type() === 'professor') {
+            // 1st param: Which array we want to push to
+            // 2nd param: Which array we want to add on 
+            array_push($results['professors'], [
+                'title' => get_the_title(),
+                'permalink' => get_the_permalink(),
+            ]); 
+        }
+
+        if(get_post_type() === 'program') {
+            // 1st param: Which array we want to push to
+            // 2nd param: Which array we want to add on 
+            array_push($results['programs'], [
+                'title' => get_the_title(),
+                'permalink' => get_the_permalink(),
+            ]); 
+        }
+
+        if(get_post_type() === 'campus') {
+            // 1st param: Which array we want to push to
+            // 2nd param: Which array we want to add on 
+            array_push($results['campuses'], [
+                'title' => get_the_title(),
+                'permalink' => get_the_permalink(),
+            ]); 
+        }
+
+        if(get_post_type() === 'event') {
+            // 1st param: Which array we want to push to
+            // 2nd param: Which array we want to add on 
+            array_push($results['events'], [
+                'title' => get_the_title(),
+                'permalink' => get_the_permalink(),
+            ]); 
+        }
+       
     }
 
-    return $professorResults;
+    return $results;
 } 
 
 add_action('rest_api_init', 'kho_university_register_search');
