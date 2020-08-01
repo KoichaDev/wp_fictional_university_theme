@@ -71,8 +71,7 @@ function universitySearchResults($data) {
             array_push($results['programs'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
-                'post_type' => get_post_type(),
-                'author_name' => get_the_author()
+                'id' => get_the_id()
             ]); 
         }
 
@@ -98,37 +97,45 @@ function universitySearchResults($data) {
             ]); 
         }
 
-         $program_relationship_query = new WP_Query([
-                'post_type' => 'professor',
-                'meta_query' => [ // WP let you have multiple inner arrays each one being filter
-                    [ 
-                        'key' => 'related_programs', // key is the name of the Advanced Custom Field, ergo shortcode of field name
-                        'compare' => 'LIKE', // LIKE is comparing-ish. It's not excatly 100% of words we want to search for
-                        'value' => '"71"'
-                    ]
-                ]
-            ]);
+        $programs_meta_query = ['relation' => 'OR'];
 
-            while($program_relationship_query -> have_posts()) {
-                $program_relationship_query -> the_post();
+        if($results['programs']) {
+            foreach ($results['programs'] as $result) {
+                array_push($programs_meta_query, [ 
+                    'key' => 'related_programs', // key is the name of the Advanced Custom Field, ergo shortcode of field name
+                    'compare' => 'LIKE', // LIKE is comparing-ish. It's not excatly 100% of words we want to search for
+                    'value' => '"' . $result['id'] . '"'
+                ],);
+            }
 
-                if(get_post_type() === 'professor') {
-                    // We want to push it to professors, not professor object
-                    array_push($results['professors'], [
-                        'title' => get_the_title(),
-                        'permalink' => get_the_permalink(),
-                        'post_type' => get_post_type(),
-                        'author_name' => get_the_author()
+            $program_relationship_query = new WP_Query([
+                    'post_type' => 'professor',
+                    'meta_query' => $programs_meta_query
+                ]);
 
-                    ]); 
+                while($program_relationship_query -> have_posts()) {
+                    $program_relationship_query -> the_post();
+
+                    if(get_post_type() === 'professor') {
+                        // We want to push it to professors, not professor object
+                        array_push($results['professors'], [
+                            'title' => get_the_title(),
+                            'permalink' => get_the_permalink(),
+                            'post_type' => get_post_type(),
+                            'author_name' => get_the_author()
+
+                        ]); 
+                    }
                 }
             }
-    }
 
-    // This will remove duplicated for example author_name 
-    // array_values will remove the key number index 
-    // SORT_REGULAR - compare items normally (don't change types)
-    $results['professor'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+            // This will remove duplicated for example author_name 
+            // array_values will remove the key number index 
+            // SORT_REGULAR - compare items normally (don't change types)
+            $results['professor'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+        }
+
+        
 
     return $results;
 } 
