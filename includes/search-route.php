@@ -13,9 +13,10 @@ function kho_university_register_search() {
 }
 
 // This function will give us what we want for JSON output
-function universitySearchResults() {
+function universitySearchResults($data) {
     $professors = new WP_Query([
-        'post_type' => 'professor'
+        'post_type' => 'professor', // This will give any post types from professor
+        's' => sanitize_text_field($data['term']), // 's' stands for search, $data is an array and refer to the GET query, e.g. http://localhost/wordpress/wp-json/kho-university/v1/search?term=barksalot
     ]);
 
     $professorResults = [];
@@ -27,7 +28,7 @@ function universitySearchResults() {
         array_push($professorResults, [
             'title' => get_the_title(),
             'permalink' => get_the_permalink(),
-            
+
         ]); 
     }
 
