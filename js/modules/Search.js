@@ -83,77 +83,40 @@ class Search {
 
                 const { campuses, events, general_info, professors, programs } = results;
 
-                general_info.map(result => {
-                    this.dataSectionGeneralInfo.innerHTML = `
-                    <li>
-                        <a href="${result?.permalink}">
-                            ${result?.title}
-                        </a> 
-                        ${result?.post_type === 'post' && `by ${result?.author_name}`
-                        }
-                    </li`;
-                });
+                if (!results) {
+                    this.resultDiv.textContent = 'No Result found!'
+                } else {
+                    document.querySelector('[data-container-search]').style.display = 'block';
+                    general_info.map(result => {
+                        console.log(result)
+                        this.dataSectionGeneralInfo.innerHTML = `
+                        <li>
+                            <a href="${result?.permalink}">
+                                ${result?.title}
+                            </a> 
+                            ${result?.post_type === 'post' && `by ${result?.author_name}`
+                            }
+                        </li`;
+                    });
 
-                programs.map(result => {
-                    this.dataSectionProgram.innerHTML = `
-                    <li>
-                        <a href="${result?.permalink}">${result?.title}</a> 
-                    </li`;
-                })
+                    programs.map(result => {
+                        this.dataSectionProgram.innerHTML = `
+                        <li>
+                            <a href="${result?.permalink}">${result?.title}</a> 
+                        </li`;
+                    })
 
-
-
-
-
+                }
                 // As soon the user typing on the search field, the spinner will load
                 this.isSpinnerVisible = true;
 
             }).catch(err => {
+                this.resultDiv.textContent = err;
                 console.log(err);
             });
         } catch (err) {
             console.log(err);
         }
-
-
-        // // Async for getting multiple API's
-        // Promise.all([
-        //     kho_university_data.root_url + `/ wp - json / wp / v2 / posts ? search = ${ this.searchField.value }`,
-        //     kho_university_data.root_url + `/ wp - json / wp / v2 / pages ? search = ${ this.searchField.value }`
-        // ]).then((response) => {
-
-        //     response.map(async data => {
-        //         const res = await fetch(data);
-        //         const post = await res.json();
-
-        //         if (post) this.spinner.classList.remove('spinner-loader');
-
-        //         if (this.isSpinnerVisible) {
-        //             if (post.length) {
-        //                 post.map(post => {
-        //                     if (post) this.isSpinnerVisible = false;
-        //                     const { author_name, title, link, type } = post;
-        //                     console.log(post);
-        //                     const li = document.createElement('li');
-        //                     const a = document.createElement('a');
-
-        //                     a.setAttribute('href', link);
-        //                     a.textContent = `${ title.rendered }  ${ type === 'post' ? `by ${author_name}` : ''} `;
-
-        //                     this.resultDiv.appendChild(this.ul);
-        //                     this.ul.appendChild(li);
-        //                     li.appendChild(a);
-        //                 });
-        //             } else {
-        //                 this.resultDiv.textContent = '';
-        //                 const p = document.createElement('p');
-        //                 p.textContent = 'No Results Found';
-        //                 this.resultDiv.appendChild(p);
-        //             }
-        //             this.spinner.classList.add('spinner-loader');
-        //         }
-        //     });
-        // }).catch(err => console.log(err))
     }
 }
 

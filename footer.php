@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" data-container-search style="display: none;">
       <div class="search-overlay__results">
         <div data-spinner-loader></div>
         <div class="row">
