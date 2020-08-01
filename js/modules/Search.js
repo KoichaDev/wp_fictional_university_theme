@@ -3,6 +3,11 @@ class Search {
     constructor() {
         this.resultDiv = document.querySelector('.search-overlay__results');
         this.spinner = document.querySelector('[data-spinner-loader]');
+        this.dataSectionGeneralInfo = document.querySelector('[data-section-general-info]');
+        this.dataSectionProgram = document.querySelector('[data-section-program]');
+        this.dataSectionProfessors = document.querySelector('[data-section-professors]');
+        this.dataSectionCampuses = document.querySelector('[data-section-campuses]');
+        this.dataSectionEvents = document.querySelector('[data-section-events]');
         this.openButton = document.querySelector('.js-search-trigger');
         this.closeButton = document.querySelector('.search-overlay__close');
         this.searchOverlay = document.querySelector('.search-overlay');
@@ -14,7 +19,6 @@ class Search {
         this.isSpinnerVisible = false;
         this.previousValue;
         this.typingtimer;
-
     }
 
     // 2. Event Listener
@@ -62,7 +66,7 @@ class Search {
                 this.typingtimer = setTimeout(this.getResults.bind(this), 750);
 
             } else {
-                this.ul.innerHTML = '';
+                this.resultDiv.textContent = '';
                 this.isSpinnerVisible = false;
             }
 
@@ -70,82 +74,87 @@ class Search {
         this.previousValue = this.searchField.value;
     }
 
-    getResults() {
-        // Async for getting multiple API's
-        Promise.all([
-            kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`,
-            kho_university_data.root_url + `/wp-json/wp/v2/pages?search=${this.searchField.value}`
-        ]).then((response) => {
+    async getResults() {
+        try {
+            const res = await fetch(kho_university_data.root_url + `/wp-json/kho_university/v1/search?term=${this.searchField.value}`);
+            const data = res.json();
+            data.then(results => {
+                if (results) this.spinner.classList.remove('spinner-loader');
 
-            response.map(async data => {
-                const res = await fetch(data);
-                const post = await res.json();
+                const { campuses, events, general_info, professors, programs } = results;
 
-                if (post) this.spinner.classList.remove('spinner-loader');
+                general_info.map(result => {
+                    this.dataSectionGeneralInfo.innerHTML = `
+                    <li>
+                        <a href="${result?.permalink}">
+                            ${result?.title}
+                        </a> 
+                        ${result?.post_type === 'post' && `by ${result?.author_name}`
+                        }
+                    </li`;
+                });
 
-                if (this.isSpinnerVisible) {
-                    if (post.length) {
-                        post.map(post => {
-                            if (post) this.isSpinnerVisible = false;
-                            const { author_name, title, link, type } = post;
-                            console.log(post);
-                            const li = document.createElement('li');
-                            const a = document.createElement('a');
+                programs.map(result => {
+                    this.dataSectionProgram.innerHTML = `
+                    <li>
+                        <a href="${result?.permalink}">${result?.title}</a> 
+                    </li`;
+                })
 
-                            a.setAttribute('href', link);
-                            a.textContent = `${title.rendered}  ${type === 'post' ? `by ${author_name}` : ''} `;
 
-                            this.resultDiv.appendChild(this.ul);
-                            this.ul.appendChild(li);
-                            li.appendChild(a);
-                        });
-                    } else {
-                        this.resultDiv.textContent = '';
-                        const p = document.createElement('p');
-                        p.textContent = 'No Results Found';
-                        this.resultDiv.appendChild(p);
-                    }
-                    this.spinner.classList.add('spinner-loader');
-                }
+
+
+
+                // As soon the user typing on the search field, the spinner will load
+                this.isSpinnerVisible = true;
+
+            }).catch(err => {
+                console.log(err);
             });
-        }).catch(err => console.log(err))
+        } catch (err) {
+            console.log(err);
+        }
+
+
+        // // Async for getting multiple API's
+        // Promise.all([
+        //     kho_university_data.root_url + `/ wp - json / wp / v2 / posts ? search = ${ this.searchField.value }`,
+        //     kho_university_data.root_url + `/ wp - json / wp / v2 / pages ? search = ${ this.searchField.value }`
+        // ]).then((response) => {
+
+        //     response.map(async data => {
+        //         const res = await fetch(data);
+        //         const post = await res.json();
+
+        //         if (post) this.spinner.classList.remove('spinner-loader');
+
+        //         if (this.isSpinnerVisible) {
+        //             if (post.length) {
+        //                 post.map(post => {
+        //                     if (post) this.isSpinnerVisible = false;
+        //                     const { author_name, title, link, type } = post;
+        //                     console.log(post);
+        //                     const li = document.createElement('li');
+        //                     const a = document.createElement('a');
+
+        //                     a.setAttribute('href', link);
+        //                     a.textContent = `${ title.rendered }  ${ type === 'post' ? `by ${author_name}` : ''} `;
+
+        //                     this.resultDiv.appendChild(this.ul);
+        //                     this.ul.appendChild(li);
+        //                     li.appendChild(a);
+        //                 });
+        //             } else {
+        //                 this.resultDiv.textContent = '';
+        //                 const p = document.createElement('p');
+        //                 p.textContent = 'No Results Found';
+        //                 this.resultDiv.appendChild(p);
+        //             }
+        //             this.spinner.classList.add('spinner-loader');
+        //         }
+        //     });
+        // }).catch(err => console.log(err))
     }
-
-    // async getResults() {
-    //     try {
-    //         const res = await fetch(kho_university_data.root_url + `/wp-json/wp/v2/posts?search=${this.searchField.value}`);
-    //         const posts = await res.json();
-
-    //         if (posts) this.spinner.classList.remove('spinner-loader');
-
-    //         if (this.isSpinnerVisible) {
-    //             if (posts.length) {
-    //                 posts.map(post => {
-    //                     if (post) this.isSpinnerVisible = false;
-    //                     const { title, link } = post;
-
-    //                     const li = document.createElement('li');
-    //                     const a = document.createElement('a');
-
-    //                     a.setAttribute('href', link);
-    //                     a.textContent = title.rendered;
-
-    //                     this.resultDiv.appendChild(this.ul);
-    //                     this.ul.appendChild(li);
-    //                     li.appendChild(a);
-    //                 });
-    //             } else {
-    //                 this.resultDiv.textContent = '';
-    //                 const p = document.createElement('p');
-    //                 p.textContent = 'No Results Found';
-    //                 this.resultDiv.appendChild(p);
-    //             }
-    //             this.spinner.classList.add('spinner-loader');
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
 }
 
 export default Search;

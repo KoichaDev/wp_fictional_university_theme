@@ -66,7 +66,25 @@
     <div class="container">
       <div class="search-overlay__results">
         <div data-spinner-loader></div>
-        <ul class="link-list min-list"></ul>
+        <div class="row">
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">General Info</h2>
+            <ul class="link-list min-list" data-section-general-info></ul>
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Programs</h2>
+              <ul class="link-list min-list" data-section-program></ul>
+            <h2 class="search-overlay__section-title">Professors</h2>
+              <ul class="link-list min-list" data-section-professors></ul>
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Campuses</h2>
+            <ul class="link-list min-list" data-section-campuses></ul>
+
+            <h2 class="search-overlay__section-title">Events</h2>
+            <ul class="link-list min-list" data-section-events></ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

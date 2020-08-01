@@ -5,7 +5,7 @@ function kho_university_register_search() {
     // 1st param: namespace for our custome feature for the URL 
     // 2nd param: namespace for query
     // 3rd param: Array what the REST API should do
-    register_rest_route('kho-university/v1', 'search', [
+    register_rest_route('kho_university/v1', 'search', [
         'methods' => WP_REST_SERVER::READABLE, // Core class used to implement the WordPress REST API server. Think of it as CRUD
         'callback' => 'universitySearchResults', // display the RAW JSON placeholder
         
@@ -47,6 +47,8 @@ function universitySearchResults($data) {
             array_push($results['general_info'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'post_type' => get_post_type(),
+                'author_name' => get_the_author()
             ]); 
         }
 
@@ -56,6 +58,9 @@ function universitySearchResults($data) {
             array_push($results['professors'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'post_type' => get_post_type(),
+                'author_name' => get_the_author()
+
             ]); 
         }
 
@@ -65,6 +70,8 @@ function universitySearchResults($data) {
             array_push($results['programs'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'post_type' => get_post_type(),
+                'author_name' => get_the_author()
             ]); 
         }
 
@@ -74,6 +81,8 @@ function universitySearchResults($data) {
             array_push($results['campuses'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'post_type' => get_post_type(),
+                'author_name' => get_the_author()
             ]); 
         }
 
@@ -83,6 +92,8 @@ function universitySearchResults($data) {
             array_push($results['events'], [
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
+                'post_type' => get_post_type(),
+                'author_name' => get_the_author()
             ]); 
         }
        
