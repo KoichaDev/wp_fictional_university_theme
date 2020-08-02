@@ -164,6 +164,12 @@
         wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.c4a3bee08cab40d47d41.css'));
     }
 
+    // Title name for our /wp-login.php
+    function our_login_page_title() {
+        // return 'Fictional University'; is great for only one site of 
+        return get_bloginfo('name'); // This might be used by a lot of different sites
+    }
+
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
 
@@ -187,5 +193,7 @@
 
     // Customize our own CSS for the /wp-login.php page
     add_action('login_enqueue_scripts', 'our_login_page_css');
+
+    add_filter('login_headertitle', 'our_login_page_title');
 ?>
 
