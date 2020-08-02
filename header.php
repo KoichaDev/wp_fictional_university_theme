@@ -36,6 +36,7 @@
         <div class="site-header__util">
 
         <?php if(is_user_logged_in()) : ?>
+          <a href="<?php echo esc_url(site_url('/my-notes')); ?>" class="btn btn--small btn--orange float-left push-right">My Notes</a>
           <a href="<?php echo wp_logout_url(); ?>" class="btn btn--small  btn--dark-orange float-left btn--with-photo">
             <!-- 
               1st param: user id or email address that we want to look up
