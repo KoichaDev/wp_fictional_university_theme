@@ -131,6 +131,28 @@
 
     }
 
+    function redirect_subscribers_to_front_end_page() {
+        $our_current_user = wp_get_current_user();
+        
+        // count is to check how many items is in the array
+        // We want to force subscriber to redirect to the homepage. The Admin dashboard doesn't work for them
+        if(count($our_current_user -> roles) === 1 && $our_current_user -> roles[0] === 'subscriber') {
+            wp_redirect(site_url('/'));
+            exit; // Tells PHP to terminate the script
+        }
+    }
+
+    function no_subscribers_allowed_for_admin_bar() {
+        $our_current_user = wp_get_current_user();
+        
+        // count is to check how many items is in the array
+        // We want to force subscriber to redirect to the homepage. The Admin dashboard doesn't work for them
+        if(count($our_current_user -> roles) === 1 && $our_current_user -> roles[0] === 'subscriber') {
+            // The user will not allowed to see the admin bar at all when they are logged into  the WordPress site
+            show_admin_bar(false);
+        }
+    }
+
 
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
@@ -144,6 +166,11 @@
     add_filter('acf/fields/google_map/api', 'kho_university_map');
 
     add_action('rest_api_init', 'kho_university_custom_restAPI');
+
+    // Redirect subscriber account out of admin and onto homepage
+    add_action('admin_init', 'redirect_subscribers_to_front_end_page');
+
+    add_action('wp_loaded', 'no_subscribers_allowed_for_admin_bar')
 
 ?>
 
