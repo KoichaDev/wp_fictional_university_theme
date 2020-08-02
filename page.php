@@ -3,11 +3,7 @@
     get_header(); 
     while(have_posts()) {
         the_post();
-        kho_page_banner([
-            'title' => 'Hello This is the title',
-            'subtitle' => 'Hi this is the subtitle',
-            'photo' => ''
-        ]);
+        kho_page_banner();
         ?>               
 
         <div class="container container--narrow page-section">
