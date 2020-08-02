@@ -158,6 +158,11 @@
         return esc_url(site_url('/'));
     }
 
+    // Visiting the login page of /wp-login.php will give us ability to customize our CSS
+    function our_login_page_css() {
+        wp_enqueue_style('custom-google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+        wp_enqueue_style('kho_university_styles', get_theme_file_uri('/bundled-assets/styles.c4a3bee08cab40d47d41.css'));
+    }
 
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
@@ -180,5 +185,7 @@
     // Customize Login Screen
     add_filter('login_headerurl', 'our_header_url');
 
+    // Customize our own CSS for the /wp-login.php page
+    add_action('login_enqueue_scripts', 'our_login_page_css');
 ?>
 
