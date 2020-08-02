@@ -153,6 +153,11 @@
         }
     }
 
+    // Redirect the user to the homepage when clicking on the logo image when they visits the login page. 
+    function our_header_url() {
+        return esc_url(site_url('/'));
+    }
+
 
     // add_action() is used for WP hooks event listener
     add_action('wp_enqueue_scripts', 'kho_university_files'); 
@@ -170,7 +175,10 @@
     // Redirect subscriber account out of admin and onto homepage
     add_action('admin_init', 'redirect_subscribers_to_front_end_page');
 
-    add_action('wp_loaded', 'no_subscribers_allowed_for_admin_bar')
+    add_action('wp_loaded', 'no_subscribers_allowed_for_admin_bar');
+
+    // Customize Login Screen
+    add_filter('login_headerurl', 'our_header_url');
 
 ?>
 
