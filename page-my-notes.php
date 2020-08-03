@@ -23,7 +23,8 @@
                     while($user_notes -> have_posts()) {
                         $user_notes -> the_post();
                         ?>
-                            <li>
+                            <!-- the_id() Display the ID of the current item in the WordPress Loop. -->
+                            <li data-id="<?php the_ID(); ?>">
                             <!-- When using information from the WP Database of HTML attribute, we have to secure it -->
                             <input class="note-title-field" value="<?php echo esc_attr(get_the_title()); ?>">
                             <span class="edit-note" data-edit-note>
