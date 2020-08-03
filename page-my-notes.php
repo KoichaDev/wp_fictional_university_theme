@@ -26,11 +26,11 @@
                             <li>
                             <!-- When using information from the WP Database of HTML attribute, we have to secure it -->
                             <input class="note-title-field" value="<?php echo esc_attr(get_the_title()); ?>">
-                            <span class="edit-note">
+                            <span class="edit-note" data-edit-note>
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                 Edit
                             </span>
-                            <span class="delete-note">
+                            <span class="delete-note" data-delete-button>
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 Delete
                             </span>

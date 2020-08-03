@@ -4,6 +4,7 @@ import "../css/style.css"
 import MobileMenu from "./modules/MobileMenu"
 import HeroSlider from "./modules/HeroSlider"
 import Search from './modules/Search';
+import MyNotes from './modules/MyNotes';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var mobileMenu = new MobileMenu()
   var heroSlider = new HeroSlider()
   const search = new Search();
+  const myNotes = new MyNotes();
 
 
   // Allow new JS and CSS to load in browser without a traditional page refresh
