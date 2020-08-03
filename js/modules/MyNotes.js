@@ -21,7 +21,9 @@ class MyNotes {
         const li = e.target.parentElement;
 
         http.delete(kho_university_data.root_url + `/wp-json/wp/v2/note/${li.getAttribute('data-id')}`)
-            .then(data => console.log(data))
+            .then(data => {
+                $(li).slideUp();
+            })
             .catch(err => console.log(err));
     }
 }
