@@ -1,4 +1,18 @@
 class HTTP {
+    // Make an HTTP Post Request
+    async post(url, data) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'X-WP-Nonce': kho_university_data.nonce
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(data)
+        })
+        return await response.json();
+    }
+
     // Make an HTTP Update Request
     async update(url, data) {
         const response = await fetch(url, {
