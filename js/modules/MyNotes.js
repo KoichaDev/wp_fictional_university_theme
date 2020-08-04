@@ -25,15 +25,24 @@ class MyNotes {
 
     editNotes(e) {
         const li = e.target.parentElement;
+
+        const dataNote = li.children[1].getAttribute('data-edit-note');
+
+        dataNote === 'true' ? this.makeNoteEditable(li) : this.readNoteOnly(li);
+
+    }
+
+    makeNoteEditable(element) {
+        const li = element;
         const title = li.children[0];
         const editBtn = li.children[1];
         const textArea = li.children[3];
         const saveBtn = li.children[4];
 
-
-        // Removing the attribute of readonly from the element
         title.removeAttribute('readonly');
         textArea.removeAttribute('readonly');
+
+        editBtn.setAttribute('data-edit-note', 'false');
 
         // Adding a new class to give a better UX focus that when user click on edit, they can change
         title.classList.add('note-active-field');
@@ -43,8 +52,31 @@ class MyNotes {
         editBtn.classList.add('fa', 'fa-times');
         editBtn.textContent = 'Cancel';
 
-        // 
         saveBtn.classList.add('update-note--visible');
+    }
+
+    readNoteOnly(element) {
+        const li = element;
+
+        const title = li.children[0];
+        const editBtn = li.children[1];
+        const textArea = li.children[3];
+        const saveBtn = li.children[4];
+
+        title.setAttribute('readonly', '');
+        textArea.setAttribute('readonly', '');
+
+        editBtn.setAttribute('data-edit-note', 'true');
+
+        // Adding a new class to give a better UX focus that when user click on edit, they can change
+        title.classList.remove('note-active-field');
+        textArea.classList.remove('note-active-field')
+
+        // Changing edit button to different icon and cancel text
+        editBtn.classList.add('fa', 'fa-pencil');
+        editBtn.textContent = 'Edit';
+
+        saveBtn.classList.remove('update-note--visible');
     }
 
     deleteNotes(e) {
