@@ -6,6 +6,7 @@ class MyNotes {
     constructor() {
         this.dataMyNotes = document.querySelector('[data-my-notes]');
         this.editMyNotes = document.querySelectorAll('[ data-edit-note]');
+        this.updateMyNotes = document.querySelectorAll('[data-update-note]');
         this.deleteButton = document.querySelectorAll('[data-delete-button]');
         this.events();
     }
@@ -19,17 +20,19 @@ class MyNotes {
         for (let i = 0; i < this.editMyNotes.length; i++) {
             this.editMyNotes[i].addEventListener('click', this.editNotes.bind(this));
         }
+
+        for (let i = 0; i < this.updateMyNotes.length; i++) {
+            this.updateMyNotes[i].addEventListener('click', this.updateNote.bind(this));
+        }
     }
 
     // Triggering the events will go here
-
     editNotes(e) {
         const li = e.target.parentElement;
 
         const dataNote = li.children[1].getAttribute('data-edit-note');
 
         dataNote === 'true' ? this.makeNoteEditable(li) : this.readNoteOnly(li);
-
     }
 
     makeNoteEditable(element) {
@@ -77,6 +80,23 @@ class MyNotes {
         editBtn.textContent = 'Edit';
 
         saveBtn.classList.remove('update-note--visible');
+    }
+
+    updateNote(e) {
+        const li = e.target.parentElement;
+        const title = li.children[0];
+        const textArea = li.children[3];
+
+        // WP needs to look after the exact keys from the object
+        const updatePost = {
+            'title': title.value,
+            'content': textArea.value
+        }
+        http.update(kho_university_data.root_url + `/wp-json/wp/v2/note/${li.getAttribute('data-id')}`, updatePost)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => console.log(err));
     }
 
     deleteNotes(e) {
