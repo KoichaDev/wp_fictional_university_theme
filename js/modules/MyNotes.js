@@ -26,6 +26,7 @@ class MyNotes {
     editNotes(e) {
         const li = e.target.parentElement;
         const title = li.children[0];
+        const editBtn = li.children[1];
         const textArea = li.children[3];
         const saveBtn = li.children[4];
 
@@ -37,6 +38,10 @@ class MyNotes {
         // Adding a new class to give a better UX focus that when user click on edit, they can change
         title.classList.add('note-active-field');
         textArea.classList.add('note-active-field')
+
+        // Changing edit button to different icon and cancel text
+        editBtn.classList.add('fa', 'fa-times');
+        editBtn.textContent = 'Cancel';
 
         // 
         saveBtn.classList.add('update-note--visible');
