@@ -92,9 +92,10 @@ class MyNotes {
             'title': title.value,
             'content': textArea.value
         }
+
         http.update(kho_university_data.root_url + `/wp-json/wp/v2/note/${li.getAttribute('data-id')}`, updatePost)
-            .then(res => {
-                console.log(res);
+            .then(() => {
+                this.readNoteOnly(li);
             })
             .catch(err => console.log(err));
     }
@@ -103,7 +104,7 @@ class MyNotes {
         const li = e.target.parentElement;
 
         http.delete(kho_university_data.root_url + `/wp-json/wp/v2/note/${li.getAttribute('data-id')}`)
-            .then(data => {
+            .then(() => {
                 $(li).slideUp();
             })
             .catch(err => console.log(err));

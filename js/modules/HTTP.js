@@ -13,7 +13,6 @@ class HTTP {
         return await response.json();
     }
 
-
     // Make an HTTP DELETE Request
     async delete(url) {
         const response = await fetch(url, {
