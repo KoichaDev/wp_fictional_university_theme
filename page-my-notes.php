@@ -12,6 +12,12 @@
         kho_page_banner();
         ?>               
         <div class="container container--narrow page-section">
+            <div class="create-note">
+                <h2 class="headline headline--medium">Create New Note</h2>
+                <input class="new-note-title" data-new-title placeholder="Title">
+                <textarea class="new-note-body" data-new-textarea placeholder="Enter Your Note here..."></textarea>
+                <span class="submit-note" data-submit-new-note>Create Note</span>
+            </div>
             <ul class="min-list link-list" data-my-notes>
                 <?php 
                     $user_notes = new WP_Query([

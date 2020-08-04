@@ -7,12 +7,18 @@ class MyNotes {
         this.dataMyNotes = document.querySelector('[data-my-notes]');
         this.editMyNotes = document.querySelectorAll('[ data-edit-note]');
         this.updateMyNotes = document.querySelectorAll('[data-update-note]');
+        this.newMyNotes = document.querySelector('[data-submit-new-note]');
         this.deleteButton = document.querySelectorAll('[data-delete-button]');
+
+        this.newPostTitle = document.querySelector('[data-new-title]');
+        this.newPostBody = document.querySelector('[data-new-textarea]');
         this.events();
     }
 
     // Events listeners will go here
     events() {
+        this.newMyNotes.addEventListener('click', this.createPost.bind(this));
+
         for (let i = 0; i < this.deleteButton.length; i++) {
             this.deleteButton[i].addEventListener('click', this.deleteNotes.bind(this));
         }
@@ -81,6 +87,24 @@ class MyNotes {
 
         saveBtn.classList.remove('update-note--visible');
     }
+
+    createPost(e) {
+        // WP needs to look after the exact keys from the object
+        const newPost = {
+            'title': this.newPostTitle.value,
+            'content': this.newPostBody.value,
+            'status': 'publish' // Default is draft. Adding the publish will publish the post right away
+        }
+
+        http.post(kho_university_data.root_url + `/wp-json/wp/v2/note`, newPost)
+            .then(() => {
+                // Reset the title and body note
+                this.newPostTitle.value = '';
+                this.newPostBody.value = '';
+            })
+            .catch(err => console.log(err));
+    }
+
 
     updateNote(e) {
         const li = e.target.parentElement;
