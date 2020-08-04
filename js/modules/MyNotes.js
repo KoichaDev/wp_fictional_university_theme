@@ -27,6 +27,8 @@ class MyNotes {
         const li = e.target.parentElement;
         const title = li.children[0];
         const textArea = li.children[3];
+        const saveBtn = li.children[4];
+
 
         // Removing the attribute of readonly from the element
         title.removeAttribute('readonly');
@@ -35,6 +37,9 @@ class MyNotes {
         // Adding a new class to give a better UX focus that when user click on edit, they can change
         title.classList.add('note-active-field');
         textArea.classList.add('note-active-field')
+
+        // 
+        saveBtn.classList.add('update-note--visible');
     }
 
     deleteNotes(e) {
