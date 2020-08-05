@@ -1,7 +1,9 @@
 import $ from "jquery"
 import HTTP from "./HTTP";
-const http = new HTTP();
+import Utilities from './Utilities';
 
+const http = new HTTP();
+const utilities = new Utilities();
 class MyNotes {
     constructor() {
         this.dataMyNotes = document.querySelector('[data-my-notes]');
@@ -97,10 +99,35 @@ class MyNotes {
         }
 
         http.post(kho_university_data.root_url + `/wp-json/wp/v2/note`, newPost)
-            .then(() => {
+            .then((res) => {
+                const parser = new DOMParser();
+
                 // Reset the title and body note
                 this.newPostTitle.value = '';
                 this.newPostBody.value = '';
+
+                const outputNode = `
+                    <li data-id="${res.id}">
+                        <input readonly class="note-title-field" data-input-title value="${res.title.raw}">
+                        <span class="edit-note" data-edit-note="true">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            Edit
+                        </span>
+                        <span class="delete-note" data-delete-button>
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            Delete
+                        </span>
+
+                        <textarea readonly class="note-body-field">${res.content.raw}</textarea>
+                        
+                        <span class="update-note btn btn--blue btn--small" data-update-note>
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            Save
+                        </span>
+                    </li>
+                `;
+
+                this.dataMyNotes.insertAdjacentHTML('afterbegin', outputNode);
             })
             .catch(err => console.log(err));
     }

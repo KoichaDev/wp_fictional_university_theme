@@ -32,7 +32,7 @@
                             <!-- the_id() Display the ID of the current item in the WordPress Loop. -->
                             <li data-id="<?php the_ID(); ?>">
                             <!-- When using information from the WP Database of HTML attribute, we have to secure it -->
-                            <input readonly  class="note-title-field" data-input-title value="<?php echo esc_attr(get_the_title()); ?>">
+                            <input readonly class="note-title-field" data-input-title value="<?php echo esc_attr(get_the_title()); ?>">
                             <span class="edit-note" data-edit-note="true">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                 Edit
